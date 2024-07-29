@@ -1,5 +1,8 @@
-name: test
-on: push
+name: deploy
+on:
+    workflow_run:
+        workflows: [prCheck]
+        types: [completed]
 jobs:
     echo:
         runs-on: ubuntu-latest

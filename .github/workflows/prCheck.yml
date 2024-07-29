@@ -1,8 +1,7 @@
-name: test
-on: [push, pull_request]
+name: prCheck
+on: pull_request
 jobs:
     pr-validation:
-        if: github.event_name == 'pull_request'
         runs-on: ubuntu-latest
         steps:
             - name: Download Code
@@ -13,9 +12,3 @@ jobs:
               run: docker run --rm test nginx -t
             - name: Validate PHP syntax
               run: docker run --rm test php -l /usr/share/nginx/html/test.php
-    testing-push:
-        if: github.event_name == 'push'
-        runs-on: ubuntu-latest
-        steps:
-          - name: Skip check
-            run: echo "merge"
