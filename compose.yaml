@@ -1,0 +1,13 @@
+services:
+  test:
+    build:
+      context: .
+      target: test
+    ports:
+      - 9090:80
+  prod:
+    build:
+      context: .
+      target: prod
+    ports:
+      - 9091:80
