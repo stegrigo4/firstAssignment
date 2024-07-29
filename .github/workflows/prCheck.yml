@@ -1,7 +1,7 @@
-name: PR Validation
+name: prCheck
 on: pull_request
 jobs:
-    validate:
+    pr-validation:
         runs-on: ubuntu-latest
         steps:
             - name: Download Code

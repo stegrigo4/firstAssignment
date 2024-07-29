@@ -2,7 +2,7 @@ FROM alpine as test
 
 RUN apk update && \
     apk upgrade && \
-    apk add kfind nginx php83 php83-fpm
+    apk add nginx php83 php83-fpm curl
 
 ENV WORKDIRECTORY /usr/share/nginx/html
 
@@ -19,6 +19,8 @@ COPY start.sh test.php $WORKDIRECTORY/
 RUN chmod +x start.sh test.php
 
 RUN echo "<html><body><h1>Hello, Docker Nginx!</h1></body></html>" > $WORKDIRECTORY/index.html
+
+HEALTHCHECK CMD curl --fail http://localhost:9090 || exit 1 
 
 CMD ./start.sh
 
@@ -26,7 +28,7 @@ FROM alpine as prod
 
 RUN apk update && \
     apk upgrade && \
-    apk add kfind nginx php83 php83-fpm
+    apk add nginx php83 php83-fpm curl
 
 ENV WORKDIRECTORY /usr/share/nginx/html
 
@@ -43,5 +45,7 @@ COPY start.sh test.php $WORKDIRECTORY/
 RUN chmod +x start.sh test.php
 
 RUN echo "<html><body><h1>Hello, Docker Nginx!</h1></body></html>" > $WORKDIRECTORY/index.html
+
+HEALTHCHECK CMD curl --fail http://localhost:9091 || exit 1
 
 CMD ./start.sh
