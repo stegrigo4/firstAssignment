@@ -14,6 +14,8 @@ jobs:
               env:
                 TEST_DB: ${{ secrets.TEST_DB }}
                 TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+            - name: Add execute permissions to check_db.sh
+              run: chmod +x ./check_db.sh
             - name: Check database entry
               run: ./check_db.sh
               env:
