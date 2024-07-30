@@ -27,6 +27,6 @@ HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
 CMD ./start.sh
 
 # Prod stage
-# FROM base as prod
-# HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
-# CMD ./start.sh
+FROM base as prod
+HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
+CMD ./start.sh
