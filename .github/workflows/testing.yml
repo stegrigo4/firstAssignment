@@ -15,7 +15,7 @@ jobs:
             - name: Add execute permissions to check_db.sh
               run: chmod +x ./check_db.sh
             - name: Check database entry
-              run: ./check_db.sh
+              run: ./check_db.sh 
     # test-database:
     #     needs: test-docker-compose
     #     runs-on: ubuntu-latest
