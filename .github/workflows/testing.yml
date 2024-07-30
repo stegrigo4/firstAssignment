@@ -12,7 +12,7 @@ jobs:
             - name: Spin up the containers
               run: docker-compose up --build -d;
                 docker ps;
-                docker exec mysql mysql -uroot -p${{secrets.TEST_DB_PASSWORD}} -e "USE ${{ secrets.TEST_DB }}; SELECT * FROM words;"
+                docker exec mysql test_database_container -uroot -p${{secrets.TEST_DB_PASSWORD}} -e "USE ${{ secrets.TEST_DB }}; SELECT * FROM words;"
 
               env:
                 TEST_DB: ${{ secrets.TEST_DB }}

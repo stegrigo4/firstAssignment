@@ -24,6 +24,7 @@ services:
   #     - app-network
   
   test_db:
+    container_name: test_database_container
     image: mysql:5.7
     environment: 
       MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
