@@ -6,6 +6,9 @@ MYSQL_USER="root"
 MYSQL_PORT="3306"
 MYSQL_PASSWORD="${TEST_DB_PASSWORD}"
 MYSQL_DATABASE="${TEST_DB}"
+MYSQL_TABLE="words_db"
+MYSQL_COLUMN="word"
+
 
 # Function to check if the MySQL container is ready
 function wait_for_mysql() {
@@ -21,5 +24,11 @@ function wait_for_mysql() {
   done
 }
 
-# Main script execution
+function query_database() {
+  echo "Querying the database for the necessary value..."
+  QUERY="SELECT * FROM $MYSQL_TABLE WHERE $MYSQL_COLUMN LIKE 'Test' OR $MYSQL_COLUMN LIKE 'test';"
+  docker exec "$CONTAINER_NAME" mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "$QUERY"
+}
+
 wait_for_mysql
+query_database
