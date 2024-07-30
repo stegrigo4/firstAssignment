@@ -23,4 +23,4 @@ jobs:
             - name: Download Code
               uses: actions/checkout@v4
             - name: Spin up the containers
-              uses: docker compose up
+              run: docker compose up
