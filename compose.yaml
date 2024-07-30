@@ -4,9 +4,8 @@ services:
       context: .
       target: test
     environment:
-      # - MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}
       - MYSQL_ROOT_PASSWORD=${TEST_DB_PASSWORD}
-      - MYSQL_DATABASE=words_db
+      - MYSQL_DATABASE=${TEST_DB}
     ports:
       - 9090:80
     networks:
@@ -27,13 +26,23 @@ services:
   test_db:
     image: mysql:5.7
     environment: 
-      # MYSQL_ROOT_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
-      MYSQL_DATABASE: words_db
+      MYSQL_DATABASE: ${TEST_DB}
     volumes:
       - test_db_data:/var/lib/mysql
+      - ./init_test.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 3306:3306
+    networks:
+      - app-network
+
+  test_check:
+    image: mysql:5.7
+    depends_on: 
+      - test_db
+    volumes:
+      - ./check_db.sh:/check_db.sh
+    entrypoint: ["sh", "/check_db.sh"]
     networks:
       - app-network
 
