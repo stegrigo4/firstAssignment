@@ -16,3 +16,11 @@ jobs:
               run: docker run --rm test nginx -t
             - name: Validate PHP syntax
               run: docker run --rm test php -l /usr/share/nginx/html/test.php
+    test-docker-compose:
+        runs-on: ubuntu-latest
+        environment: Test
+        steps:
+            - name: Download Code
+              uses: actions/checkout@v4
+            - name: Spin up the containers
+              uses: docker compose up
