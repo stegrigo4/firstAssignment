@@ -11,19 +11,13 @@ jobs:
             #   run: echo "MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}" >> $GITHUB_ENV;
             - name: Spin up the containers
               run: docker-compose up --build -d;
-                docker ps;
-                docker exec test_database_container mysql -uroot -p${{secrets.TEST_DB_PASSWORD}} -e "USE ${{ secrets.TEST_DB }}; SELECT * FROM words;"
-
               env:
                 TEST_DB: ${{ secrets.TEST_DB }}
                 TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
-            # - name: Add execute permissions to check_db.sh
-            #   run: chmod +x ./check_db.sh
-            # - name: Check database entry
-            #   run: docker exec 
-            #   env:
-            #     TEST_DB: ${{ secrets.TEST_DB }}
-            #     TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+            - name: Add execute permissions to check_db.sh
+              run: chmod +x ./check_db.sh
+            - name: Check database entry
+              run: docker exec test_database_container mysql -uroot -p${{secrets.TEST_DB_PASSWORD}} -e "USE ${{ secrets.TEST_DB }}; SELECT * FROM words;"
     # test-database:
     #     needs: test-docker-compose
     #     runs-on: ubuntu-latest
