@@ -3,13 +3,14 @@ FROM alpine as base
 
 RUN apk update && \
     apk upgrade && \
-    apk add nginx php83 php83-fpm curl
+    apk add nginx php83 php83-fpm php83-mysql curl
 
 ENV WORKDIRECTORY /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY www.conf /etc/php83/php-fpm.d/www.conf
 COPY php.ini /etc/php83/php.ini
+COPY index.php $WORKDIRECTORY
 
 WORKDIR $WORKDIRECTORY
 
@@ -24,5 +25,5 @@ CMD ./start.sh
 
 # Prod stage
 # FROM base as prod
-# HEALTHCHECK CMD curl --fail http://localhost:9091 || exit 1
+# HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
 # CMD ./start.sh

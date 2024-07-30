@@ -1,19 +1,40 @@
 name: prCheck
 on: 
   pull_request:
-    types: closed
-    branches:
-      - master
+    types: opened
 jobs:
-    pull-request-validation:
-        runs-on: ubuntu-latest
-        environment: Test
-        steps:
-            - name: Download Code
-              uses: actions/checkout@v4
-            - name: Build Docker image
-              run: docker build -t test .
-            - name: Validate Nginx configuration
-              run: docker run --rm test nginx -t
-            - name: Validate PHP syntax
-              run: docker run --rm test php -l /usr/share/nginx/html/test.php
+    # pull-request-validation:
+    #     runs-on: ubuntu-latest
+    #     environment: Test
+    #     steps:
+    #         - name: Download Code
+    #           uses: actions/checkout@v4
+    #         - name: Build Docker image
+    #           run: docker build -t test .
+    #         - name: Validate Nginx configuration
+    #           run: docker run --rm test nginx -t
+    #         - name: Validate PHP syntax
+    #           run: docker run --rm test php -l /usr/share/nginx/html/test.php
+    validate:
+      environment: Test
+      env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      runs-on: ubuntu-latest
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+          - name: Build and Run Docker Compose for Test
+            run: |
+              docker-compose -f docker-compose.yml up -d --build
+              echo "build"
+              # Validate Nginx configuration
+              docker-compose -f docker-compose.yml exec -ti test nginx -t -c /etc/nginx/nginx.conf
+              echo "nginx verified"
+              # Validate PHP syntax
+              docker-compose -f docker-compose.yml exec -ti test php -l /usr/share/nginx/html/index.php
+              echo "php verified"
