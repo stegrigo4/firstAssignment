@@ -3,7 +3,7 @@ FROM alpine as base
 
 RUN apk update && \
     apk upgrade && \
-    apk add nginx php83 php83-fpm php83-mysql curl
+    apk add nginx php83 php83-fpm php83-mysqli curl
 
 ENV WORKDIRECTORY /usr/share/nginx/html
 
