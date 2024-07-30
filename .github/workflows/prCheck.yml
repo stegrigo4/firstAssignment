@@ -6,6 +6,7 @@ on:
 jobs:
     pr-validation:
         runs-on: ubuntu-latest
+        environment: Test
         steps:
             - name: Download Code
               uses: actions/checkout@v4
