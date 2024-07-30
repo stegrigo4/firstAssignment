@@ -36,5 +36,5 @@ jobs:
               docker-compose -f compose.yaml exec -ti test nginx -t -c /etc/nginx/nginx.conf
               echo "nginx verified"
               # Validate PHP syntax
-              docker-compose -f compose.yaml exec -ti test php -l /usr/share/nginx/html/index.php
+              docker-compose -f compose.yaml exec -ti test php -l /nginx_php/index.php
               echo "php verified"
