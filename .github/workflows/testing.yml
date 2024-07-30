@@ -14,8 +14,6 @@ jobs:
               env:
                 TEST_DB: ${{ secrets.TEST_DB }}
                 TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
-            - name: Test database entry
-              run: docker-compose up --build -d
             - name: Check database entry
               run: ./check_db.sh
               env:
