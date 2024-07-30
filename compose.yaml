@@ -37,15 +37,15 @@ services:
     networks:
       - app-network
 
-  test_check:
-    image: mysql:5.7
-    depends_on: 
-      - test_db
-    volumes:
-      - ./check_db.sh:/check_db.sh
-    entrypoint: ["sh", "/check_db.sh"]
-    networks:
-      - app-network
+  # test_check:
+  #   image: mysql:5.7
+  #   depends_on: 
+  #     - test_db
+  #   volumes:
+  #     - ./check_db.sh:/check_db.sh
+  #   entrypoint: ["sh", "/check_db.sh"]
+  #   networks:
+  #     - app-network
 
   # prod_db:
   #   image: mysql:5.7
