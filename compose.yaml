@@ -4,45 +4,47 @@ services:
       context: .
       target: test
     environment:
-      - MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}
+      # - MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}
+      - MYSQL_ROOT_PASSWORD=${TEST_DB_PASSWORD}
       - MYSQL_DATABASE=words_db
     ports:
       - 9090:80
     networks:
       - app-network
 
-  prod:
-    build:
-      context: .
-      target: prod
-    environment:
-      - MYSQL_ROOT_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}
-      - MYSQL_DATABASE=words_db
-    ports:
-      - 9091:80
-    networks:
-      - app-network
+  # prod:
+  #   build:
+  #     context: .
+  #     target: prod
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}
+  #     - MYSQL_DATABASE=words_db
+  #   ports:
+  #     - 9091:80
+  #   networks:
+  #     - app-network
   
   test_db:
     image: mysql:5.7
     environment: 
-      MYSQL_ROOT_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+      # MYSQL_ROOT_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
       MYSQL_DATABASE: words_db
     volumes:
       - test_db_data:/var/lib/mysql
     ports:
-      - 3307:3306
+      - 3306:3306
     networks:
       - app-network
 
-  prod_db:
-    image: mysql:5.7
-    environment: 
-      MYSQL_ROOT_PASSWORD: $({ secrets.PROD_DB_PASSWORD }}
-      MYSQL_DATABASE: words_db
-    volumes: 
-      - prod_db_data:/var/lib/mysql
-    ports:
-      - 3308:3306
-    networks:
-      - app-network
+  # prod_db:
+  #   image: mysql:5.7
+  #   environment: 
+  #     MYSQL_ROOT_PASSWORD: $({ secrets.PROD_DB_PASSWORD }}
+  #     MYSQL_DATABASE: words_db
+  #   volumes: 
+  #     - prod_db_data:/var/lib/mysql
+  #   ports:
+  #     - 3308:3306
+  #   networks:
+  #     - app-network
