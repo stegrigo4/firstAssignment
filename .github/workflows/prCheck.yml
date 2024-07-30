@@ -1,10 +1,11 @@
 name: prCheck
 on: 
   pull_request:
+    types: closed
     branches:
       - master
 jobs:
-    pr-validation:
+    pull-request-validation:
         runs-on: ubuntu-latest
         environment: Test
         steps:
