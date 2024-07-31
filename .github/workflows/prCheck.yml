@@ -36,7 +36,9 @@ jobs:
         DEPLOY_VM: ${{ secrets.DEPLOY_VM }}
       runs-on: ubuntu-latest
       steps:
-        - name: Connect to SSH
-          run: ssh -i ${{ secrets.ID_RSA }} ${{secrets.DEPLOY_VM}}
+        - name: Create file artifact with key
+          run: echo ${{secrets.ID_RSA}} > id_rsa
+        - name: Connect to ssh
+          run: ssh -i id_rsa ${{secrets.DEPLOY_VM}}
         - name: Echo in VM
           run: pwd
