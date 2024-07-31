@@ -43,7 +43,7 @@ jobs:
             chmod 600 id_rsa
         - name: Add VM to known hosts
           run: |
-            mkdir -p /.ssh
+            sudo mkdir -p /.ssh
             ssh-keyscan -H ${{ secrets.DEPLOY_VM }} >> /.ssh/known_hosts
         - name: Connect to VM and run commands
           run: ssh -t -t -i id_rsa -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_VM }} << EOT
