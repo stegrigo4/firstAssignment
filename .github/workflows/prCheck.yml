@@ -38,9 +38,15 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Create file artifact with key
-          run: echo "${{secrets.ID_RSA}}" > id_rsa
+          run: |
+            echo "${{secrets.ID_RSA}}" > id_rsa
             chmod 600 id_rsa
-        - name: Connect to ssh
-          run: ssh -t -t -i id_rsa ${{secrets.DEPLOY_VM}}
-        - name: Echo in VM
-          run: pwd
+        - name: Add VM to known hosts
+          run: |
+            mkdir -p /.ssh
+            ssh-keyscan -H ${{ secrets.DEPLOY_VM }} >> /.ssh/known_hosts
+        - name: Connect to VM and run commands
+          run: ssh -t -t -i id_rsa -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_VM }} << EOT
+            echo "Connected to VM"
+            pwd
+            EOT
