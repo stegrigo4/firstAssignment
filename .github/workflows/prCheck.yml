@@ -58,5 +58,5 @@ jobs:
           run: scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
         - name: Spin up the containers
           run: |
-            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd firstAssignment"
-            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker compose up"
+            ssh /home/runner/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd firstAssignment"
+            ssh /home/runner/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker compose up"
