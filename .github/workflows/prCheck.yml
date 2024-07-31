@@ -1,4 +1,4 @@
-name: prCheck
+name: Testing
 on: 
   pull_request:
 jobs:
@@ -25,3 +25,18 @@ jobs:
               # Validate PHP syntax
               docker-compose -f compose.yaml exec -ti test php -l /nginx_php/index.php
               echo "php verified"
+    deployment:
+      environment: Test
+      env:
+        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+        MYSQL_USER: ${{ secrets.MYSQL_USER }}
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        ID_RSA: ${{ secrets.ID_RSA }}
+        DEPLOY_VM: ${{ secrets.DEPLOY_VM }}
+      runs-on: ubuntu-latest
+      steps:
+        - name: Connect to SSH
+          run: ssh -i ${{ secrets.ID_RSA }} ${{secrets.DEPLOY_VM}}
+        - name: Echo in VM
+          run: pwd
