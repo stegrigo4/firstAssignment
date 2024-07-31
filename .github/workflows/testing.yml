@@ -67,5 +67,7 @@ jobs:
         - name: Spin up the containers
           run: |
             ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+            ls
+            pwd
             cd firstAssignment
             docker compose up --build -d
