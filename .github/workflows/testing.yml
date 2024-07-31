@@ -61,7 +61,15 @@ jobs:
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
         - name: Copy files with SCP
-          run: scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+          run: |
+            scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+            scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/mysql /home/runner/work/firstAssignment/firstAssignment/
+            ls /home/runner/work/firstAssignment/firstAssignment/
+        # - name: Backup Data
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: mysql
+        #     path: /home/runner/work/firstAssignment/firstAssignment/mysql
         - name: Spin up the containers
           run: |
             ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd firstAssignment; docker compose down; docker compose up --build -d"
