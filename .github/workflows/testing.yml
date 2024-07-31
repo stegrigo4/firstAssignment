@@ -66,8 +66,5 @@ jobs:
         #   run: echo "/home/grigo/firstAssignment docker compose up" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
         - name: Spin up the containers
           run: |
-            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
-            ls
-            pwd
-            cd firstAssignment
-            docker compose up --build -d
+            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls; pwd"
+        # docker compose up --build -d
