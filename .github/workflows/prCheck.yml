@@ -33,20 +33,14 @@ jobs:
         MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         MYSQL_USER: ${{ secrets.MYSQL_USER }}
         MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-        ID_RSA: ${{ secrets.ID_RSA }}
-        DEPLOY_VM: ${{ secrets.DEPLOY_VM }}
       runs-on: ubuntu-latest
       steps:
-        - name: Create file artifact with key
-          run: |
-            echo "${{secrets.ID_RSA}}" > id_rsa
-            chmod 600 id_rsa
-        - name: Add VM to known hosts
-          run: |
-            sudo mkdir -p /.ssh
-            ssh-keyscan -H ${{ secrets.DEPLOY_VM }} >> /.ssh/known_hosts
-        - name: Connect to VM and run commands
-          run: ssh -t -t -i id_rsa -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_VM }} << EOT
-            echo "Connected to VM"
-            pwd
-            EOT
+        - name: Install SSH Key
+          uses: shimataro/ssh-key-action@v2
+          with:
+            key: ${{ secrets.ID_RSA }}
+            known_hosts: 'placeholder'
+        - name: Adding Known Hosts
+          run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+        - name: Deploy with rsync
+          run: rsync -nvh / ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/
