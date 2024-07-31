@@ -55,7 +55,9 @@ jobs:
         - name: Copy files with SCP
           run: |
             scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
-            scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/mysql /home/runner/work/firstAssignment/firstAssignment/
+            echo "First SCP command exit status: $?"
+            scp -vvv -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/mysql /home/runner/work/firstAssignment/firstAssignment/
+            echo "Second SCP command exit status: $?"
             ls /home/runner/work/firstAssignment/firstAssignment/
         - name: Spin up the containers
           run: |
