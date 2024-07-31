@@ -26,6 +26,7 @@ jobs:
               docker-compose -f compose.yaml exec -ti test php -l /nginx_php/index.php
               echo "php verified"
     deployment:
+      needs: validate
       environment: Test
       env:
         MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
@@ -37,7 +38,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Create file artifact with key
-          run: echo "${{secrets.ID_RSA}}"" > id_rsa
+          run: echo "${{secrets.ID_RSA}}" > id_rsa
             chmod 600 id_rsa
         - name: Connect to ssh
           run: ssh -i id_rsa ${{secrets.DEPLOY_VM}}
