@@ -56,5 +56,9 @@ jobs:
             path: /home/runner/work/firstAssignment/firstAssignment
         - name: Copy files with SCP
           run: scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+        - name: Grant permissions
+          run: |
+            echo "chmod u+x /home/grigo/firstAssignment" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+            echo "chmod u+x /home/grigo/firstAssignment/compose.yaml" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
         - name: Spin up the containers
           run: echo "/home/grigo/firstAssignment docker compose up" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
