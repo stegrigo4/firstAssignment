@@ -54,7 +54,7 @@ jobs:
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
         - name: Copy files with SCP
           run: |
-            ls
+            pwd
             scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
             scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/mysql /home/runner/work/firstAssignment/firstAssignment/
             echo "Second SCP command exit status: $?"
