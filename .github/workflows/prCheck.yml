@@ -41,6 +41,6 @@ jobs:
           run: echo "${{secrets.ID_RSA}}" > id_rsa
             chmod 600 id_rsa
         - name: Connect to ssh
-          run: ssh -itt id_rsa ${{secrets.DEPLOY_VM}}
+          run: ssh -t -t -i id_rsa ${{secrets.DEPLOY_VM}}
         - name: Echo in VM
           run: pwd
