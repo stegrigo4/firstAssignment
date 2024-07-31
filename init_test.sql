@@ -1,6 +1,8 @@
 -- Create the database schema
-CREATE DATABASE IF NOT EXISTS myapp_db;
-USE myapp_db;
+CREATE DATABASE IF NOT EXISTS grigo_db;
+USE grigo_db;
+-- CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+-- USE $MYSQL_DATABASE;
 
 -- Create the names table
 CREATE TABLE IF NOT EXISTS names (
@@ -9,7 +11,7 @@ CREATE TABLE IF NOT EXISTS names (
 );
 
 -- Insert sample data
-INSERT INTO names (name) VALUES ('Alexia');
+INSERT INTO names (name) VALUES ('Grigo');
 INSERT INTO names (name) VALUES ('Bianca');
 INSERT INTO names (name) VALUES ('Stefan');
-INSERT INTO names (name) VALUES ('Grigo');
+INSERT INTO names (name) VALUES ('Alexia');
