@@ -22,7 +22,7 @@ jobs:
               echo "php verified"
     deployment:
       needs: validate
-      environment: Prod
+      environment: Test
       env:
         MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
