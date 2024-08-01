@@ -62,7 +62,7 @@ jobs:
             ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd firstAssignment; docker compose down; docker compose up --build -d"
         - name: Make backup
           run: |
-              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose -f ~/firstAssignment/docker-compose.yml exec -ti db bash -c 'mysqldump -h \$MYSQL_HOST -u \$MYSQL_USER -p\$MYSQL_PASSWORD \$MYSQL_DATABASE > ~/firstAssignment/backup/backup_\$(date +%F_%H-%M-%S).sql'"
+              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose -f ~/firstAssignment/compose.yaml exec -ti db bash -c 'mysqldump -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ~/firstAssignment/backup/backup_\$(date +%F_%H-%M-%S).sql'"
         - name: Copy backup files with SCP
           run: |
             scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
