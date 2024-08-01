@@ -113,3 +113,21 @@ In order to actually spin up the application on the VM correctly i had to do som
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
 ```
+### The application on the VM doesn't have its port forwarded and a DNS assigned
+This is a problem as i can't check on the VM itself to open a browser and check the localhost, or access the application remotely as i could with https://first-assignment.zambeste.ro/
+### Registry cleanup and image creation on Dockerhub
+I created a ```bash``` script that can create the number of images the user requests and I used the latest tag in the ```Dockerhub repository``` as the base number for the tag. It doesn't use the credentials as i only used it from my ```WSL machine``` but that can be easily added as a prompt for the user to add and. It curls a link where the repository has all its details in ```JSON``` format that can be easily parsed to find the latest image, as it is the first in the stack.
+```
+LATEST_TAG_PROD=$(curl -s "https://hub.docker.com/v2/repositories/$REPOSITORY_PROD/tags/?page_size=100" | jq -r '.results|.[]|.name'| head -n 1)
+...
+for ((i = $TEST_TAG_NUMBER; i <= $(($NUMBER_OF_IMAGES+$TEST_TAG_NUMBER)); i++)) do
+  NEW_VERSION=$(($TEST_TAG_NUMBER + i))
+  NEW_TAG="v$NEW_VERSION"
+  echo "Creating new tag: $NEW_TAG"
+  
+  docker tag $REPOSITORY_TEST:v$TEST_TAG_NUMBER $REPOSITORY_TEST:$NEW_TAG
+  
+  docker push $REPOSITORY_TEST:$NEW_TAG
+done
+```
+Unfortunately i could not find an automated way to clean up the Dockerhub registry or remove automatically the oldest X images.
