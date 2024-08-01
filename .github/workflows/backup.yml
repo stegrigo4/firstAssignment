@@ -9,7 +9,7 @@ on:
             - completed
 jobs:
     backup:
-        environment: Prod
+        environment: Test
         env:
             MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
             MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
@@ -32,12 +32,16 @@ jobs:
           - name: Copy backup files with SCP
             run: |
               scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
+          - name: Add date to backup name
+            run: |
+                mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.mysql "$(date +"%m-%d-%y")"
+                ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Upload database backup
             uses: actions/upload-artifact@v4
             with:
               name: Database Backup
               path: /home/runner/work/firstAssignment/firstAssignment/backup
-          - name: Clean up old backups on VM
-            run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find /home/grigo/backup -type f -name '*.sql' -mtime +7 -exec rm {} \;"
+        #   - name: Clean up old backups on VM
+        #     run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find /home/grigo/backup -type f -name '*.sql' -mtime +7 -exec rm {} \;"
               
             
