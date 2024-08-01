@@ -1,14 +1,8 @@
 name: DB Backup
-# on:
-#     schedule:
-#         - cron: '0 0 * * *' # Runs every day at midnight
-# on:
-#     workflow_run:
-#         workflows: ["Testing"]
-#         types: 
-#             - completed
 on:
-    pull_request:
+    schedule:
+        # - cron: '0 0 * * *' # Runs every day at midnight
+        - cron: '30 8 * * *' # Runs every day at midnight
 jobs:
     backup:
         environment: Test
