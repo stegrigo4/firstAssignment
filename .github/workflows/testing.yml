@@ -66,7 +66,6 @@ jobs:
         - name: Copy backup files with SCP
           run: |
             scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
-            cat /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql
         - name: Upload database backup
           uses: actions/upload-artifact@v4
           with:
