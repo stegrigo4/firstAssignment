@@ -33,7 +33,9 @@ jobs:
           - name: Move inside backup directory
             run: |  
                 ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/grigo/backup"
-                ls
+          - name: Check inside the directory
+            run: |  
+                ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls"
           - name: Rename the file
             run: |  
                 ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mv backup.mysql backup_$(date +"%m-%d-%y").sql"
