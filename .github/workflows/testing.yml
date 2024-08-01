@@ -54,7 +54,9 @@ jobs:
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
         - name: Copy files with SCP
           run: |
+            ls; pwd;
             scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+            ls; pwd;
         - name: Make backup directory
           run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ./backup"
         - name: Spin up the containers
