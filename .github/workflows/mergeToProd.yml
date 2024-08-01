@@ -13,5 +13,11 @@ jobs:
         runs-on: ubuntu-latest
         environment: Prod
         steps: 
-            - name: Echo
+            - name: Pull Request merged!
               run: echo "Pull Request merged!"
+            - name: Checkout code
+              run: actions/checkout@v4
+            - name: Checking all files are correct
+              run: ls -la
+            - name: Modify version file
+              run: cat version.txt
