@@ -11,7 +11,6 @@ jobs:
     backup:
         environment: Test
         env:
-            MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
             MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
             MYSQL_USER: ${{ secrets.MYSQL_USER }}
             MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
@@ -40,4 +39,4 @@ jobs:
             uses: actions/upload-artifact@v4
             with:
               name: Database Backup
-              path: /home/runner/work/firstAssignment/firstAssignment/backup
+              path: /home/runner/work/firstAssignment/firstAssignment/backup/
