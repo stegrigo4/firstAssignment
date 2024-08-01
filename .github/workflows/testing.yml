@@ -52,9 +52,9 @@ jobs:
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
-        # - name: Copy files with SCP
-        #   run: |
-        #     scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+        - name: Copy files with SCP
+          run: |
+            scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
         - name: Make backup directory
           run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ./backup"
         - name: Spin up the containers
@@ -66,5 +66,10 @@ jobs:
         - name: Copy backup files with SCP
           run: |
             scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
-            ls /home/runner/work/firstAssignment/firstAssignment/backup
+            cat /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql
+        - name: Upload database backup
+          uses: actions/upload-artifact@v4
+          with:
+            name: Database Backup
+            path: /home/runner/work/firstAssignment/firstAssignment/backup
           
