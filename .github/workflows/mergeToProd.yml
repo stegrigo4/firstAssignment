@@ -20,7 +20,7 @@ jobs:
             - name: Checking all files are correct
               run: ls -la; chmod u+x version.sh
             - name: Modify version file
-              run: ./version.sh
+              run: ./version.sh; cat version.txt
             - name: Set up Git identity
               run: |
                 git config --global user.name "${{ secrets.GIT_USERNAME }}"
@@ -28,9 +28,10 @@ jobs:
             - name: Read version from text file
               run: |
                 VERSION=$(cat version.txt)
-                echo "VERSION=$VERSION" >> $GITHUB_ENV
+                echo "VERSION=$VERSION" >> $GITHUB_ENV; cat version.txt
             - name: Create git tag
               run: |
+                cat version.txt
                 git add version.txt
                 git tag -a "v$VERSION" -m "Release $VERSION"
                 git push origin "v$VERSION"
