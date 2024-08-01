@@ -32,10 +32,10 @@ jobs:
           - name: Copy backup files with SCP
             run: |
               scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
+          - name: Check if backup is in folder
+            run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Add date to backup name
-            run: |
-                ls /home/runner/work/firstAssignment/firstAssignment/backup/
-                mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
+            run: mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
           - name: Upload database backup
             uses: actions/upload-artifact@v4
             with:
