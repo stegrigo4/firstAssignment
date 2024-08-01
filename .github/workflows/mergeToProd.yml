@@ -32,6 +32,7 @@ jobs:
             - name: Commit updated version
               run: |
                 cat version.txt
+                git pull
                 git add version.txt
                 git commit -m "Update version to ${{ env.VERSION }}"
                 git push
