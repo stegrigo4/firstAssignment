@@ -11,7 +11,6 @@ jobs:
     backup:
         environment: Test
         env:
-            MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
             MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
             MYSQL_USER: ${{ secrets.MYSQL_USER }}
             MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
@@ -19,7 +18,7 @@ jobs:
         steps:
           - name: Install SSH Key
             uses: shimataro/ssh-key-action@v2
-            with:
+            with:   
                 key: ${{ secrets.ID_RSA }}
                 known_hosts: 'placeholder'
           - name: Adding Known Hosts
@@ -27,21 +26,17 @@ jobs:
           - name: Make backup directory
             run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ./backup"
           - name: Make backup
-            run: |
+            run: |  
                 ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker exec mysql bash -c 'mysqldump -h db -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ./backup/backup.sql'"
           - name: Copy backup files with SCP
             run: |
               scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
+          - name: Check if backup is in folder
+            run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Add date to backup name
-            run: |
-                ls /home/runner/work/firstAssignment/firstAssignment/backup/
-                mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
+            run: mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
           - name: Upload database backup
             uses: actions/upload-artifact@v4
             with:
               name: Database Backup
-              path: /home/runner/work/firstAssignment/firstAssignment/backup
-        #   - name: Clean up old backups on VM
-        #     run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find /home/grigo/backup -type f -name '*.sql' -mtime +7 -exec rm {} \;"
-              
-            
+              path: /home/runner/work/firstAssignment/firstAssignment/backup/
