@@ -4,11 +4,6 @@ on:
 jobs:
     validate:
       environment: Test
-      # env:
-      #     MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      #     MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-      #     MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      #     MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       runs-on: ubuntu-latest
       steps:
           - name: Checkout code
@@ -25,11 +20,9 @@ jobs:
               # Validate PHP syntax
               docker-compose -f compose.yaml exec -ti test php -l /nginx_php/index.php
               echo "php verified"
-              pwd
-              ls -la
     deployment:
       needs: validate
-      environment: Test
+      environment: Prod
       env:
         MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
