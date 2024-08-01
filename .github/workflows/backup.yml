@@ -2,11 +2,13 @@ name: DB Backup
 # on:
 #     schedule:
 #         - cron: '0 0 * * *' # Runs every day at midnight
+# on:
+#     workflow_run:
+#         workflows: ["Testing"]
+#         types: 
+#             - completed
 on:
-    workflow_run:
-        workflows: ["Testing"]
-        types: 
-            - completed
+    pull_request:
 jobs:
     backup:
         environment: Test
@@ -35,9 +37,11 @@ jobs:
             run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Add date to backup name
             run: mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
+          - name: Check if backup is in folder
+            run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Upload database backup
             uses: actions/upload-artifact@v4
             with:
               name: Database Backup
-              path: /home/runner/work/firstAssignment/firstAssignment/backup/
+              path: /home/runner/work/firstAssignment/firstAssignment/backup
         # 
