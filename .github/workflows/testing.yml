@@ -52,9 +52,9 @@ jobs:
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /home/runner/work/firstAssignment/firstAssignment/.env
-        - name: Copy files with SCP
-          run: |
-            scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
+        # - name: Copy files with SCP
+        #   run: |
+        #     scp -rv /home/runner/work/firstAssignment/firstAssignment ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo
         - name: Make backup directory
           run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ./backup"
         - name: Spin up the containers
@@ -62,7 +62,7 @@ jobs:
             ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd firstAssignment; docker compose down; docker compose up --build -d"
         - name: Make backup
           run: |
-              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose -f ~/firstAssignment/compose.yaml exec -ti db bash -c 'mysqldump -h db -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ~/firstAssignment/backup/backup_\$(date +%F_%H-%M-%S).sql'"
+              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose -f ~/firstAssignment/compose.yaml exec -ti db bash -c 'mysqldump -h db -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ./backup --result-file=backup.sql'"
         - name: Copy backup files with SCP
           run: |
             scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
