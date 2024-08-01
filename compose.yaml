@@ -31,6 +31,8 @@ services:
       retries: 10
     volumes:
         - ./init_test.sql:/docker-entrypoint-initdb.d/init.sql
+        - /home/grigo/mysql:/var/lib/mysql
+        - /home/grigo/backup:/backup
     ports:
       - "3306:3306"
     networks:

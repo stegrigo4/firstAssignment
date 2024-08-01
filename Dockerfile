@@ -7,6 +7,7 @@ RUN apk update && \
 RUN mkdir /nginx_php
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY www.conf /etc/php83/php-fpm.d/www.conf
 COPY index.php /nginx_php/
 COPY start.sh start.sh
 

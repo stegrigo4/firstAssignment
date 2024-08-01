@@ -1,7 +1,7 @@
-name: deploy
+name: Merge to Prod
 on:
     workflow_run:
-        workflows: ["prCheck"]
+        workflows: ["Testing"]
         types: 
             - completed
     pull_request:
