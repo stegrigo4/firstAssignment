@@ -21,5 +21,11 @@ jobs:
               run: ls -la; chmod u+x version.sh; chmod u+x release.sh
             - name: Modify version file
               run: ./version.sh
-            - name: Tag version and push
-              run: ./release.sh
+            - name: Read version from text file
+              run: |
+                VERSION=$(cat version.txt)
+                echo "VERSION=$VERSION" >> $GITHUB_ENV
+            - name: Create git tag
+              run: |
+                git tag -a "v$VERSION" -m "Release $VERSION"
+                git push origin "v$VERSION"
