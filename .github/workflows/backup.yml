@@ -36,7 +36,7 @@ jobs:
           - name: Check if backup is in folder
             run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Add date to backup name
-            run: mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql "backup_$(date +"%m-%d-%y").sql"
+            run: mv /home/runner/work/firstAssignment/firstAssignment/backup/backup.sql backup_$(date +"%m-%d-%y").sql
           - name: Check if backup is in folder
             run: ls /home/runner/work/firstAssignment/firstAssignment/backup/
           - name: Upload database backup
