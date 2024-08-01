@@ -30,12 +30,9 @@ jobs:
           - name: Make backup
             run: |  
                 ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker exec mysql bash -c 'mysqldump -h db -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ./backup/backup.sql'"
-          - name: Move inside backup directory
-            run: |  
-                ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/grigo/backup; ls"
           - name: Rename the file
             run: |  
-                ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mv /backup/backup.mysql /backup/backup_$(date +"%m-%d-%y").sql"
+                ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/grigo/backup; ls; mv /backup.mysql /backup_$(date +"%m-%d-%y").sql"
           - name: Copy backup files with SCP
             run: |
               scp -rv ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/grigo/backup /home/runner/work/firstAssignment/firstAssignment/backup
