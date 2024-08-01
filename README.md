@@ -103,6 +103,22 @@ jobs:
         steps: 
         ...
 ```
+In order to modify the ```version.txt``` file I used a ```bash``` script that copies the content of the folder, separates the numbers into an array, increases the last one, reassembles the number and overwrites the original.
+```
+#!/bin/bash
+
+version=$(cat version.txt)
+
+IFS='.' read -r -a version_parts <<< "$version"
+
+((version_parts[2]++))
+
+new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
+
+echo "$new_version" > version.txt
+
+echo "Updated version: $new_version"
+```
 ### Bad practice that worked
 In order to actually spin up the application on the VM correctly i had to do something that's considered bad practice. I copied the secrets from the ```Production Environment``` onto an ```.env``` file that i send to the VM alongside the other code, in order for the application to read the environment variables correctly. I did not look that hard to a better alternative for an isolated VM so i stick with this option.
 ```
@@ -130,4 +146,6 @@ for ((i = $TEST_TAG_NUMBER; i <= $(($NUMBER_OF_IMAGES+$TEST_TAG_NUMBER)); i++)) 
   docker push $REPOSITORY_TEST:$NEW_TAG
 done
 ```
-Unfortunately i could not find an automated way to clean up the Dockerhub registry or remove automatically the oldest X images.
+Unfortunately i did not find an automated way to clean up the Dockerhub registry or remove automatically the oldest X images.
+## Webhooks to be alerted on Teams
+Unfortunately I did not find a way to integrate them with ```Github Webhooks```.
