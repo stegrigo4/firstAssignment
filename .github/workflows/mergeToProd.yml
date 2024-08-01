@@ -18,7 +18,7 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
             - name: Checking all files are correct
-              run: ls -la; chmod u+x version.sh; chmod u+x release.sh
+              run: ls -la; chmod u+x version.sh
             - name: Modify version file
               run: ./version.sh
             - name: Read version from text file
